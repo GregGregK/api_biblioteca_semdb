@@ -3,8 +3,7 @@ package com.example.demo.entity;
 public class Bibliotecario {
     private Long codigo; 
     private String nome;
-    private String setor;
-    
+    private Setor setor;
     public Long getCodigo() {
         return codigo;
     }
@@ -17,10 +16,11 @@ public class Bibliotecario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getSetor() {
+    public Setor getSetor() {
         return setor;
     }
-    public void setSetor(String setor) {
+    public void setSetor(Setor setor) {
         this.setor = setor;
     }
+    
 }
