@@ -4,8 +4,15 @@ public class Aluno {
     private Long codigo;
     private String nome;
     private int idade;
+    private Livro livro;
 
     
+    public Livro getLivro() {
+        return livro;
+    }
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
     public Long getCodigo() {
         return codigo;
     }

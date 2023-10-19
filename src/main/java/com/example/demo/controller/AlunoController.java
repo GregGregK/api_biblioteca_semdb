@@ -62,7 +62,7 @@ public class AlunoController {
         }
     }
 
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/deletar/{codigo}")
     public ResponseEntity<?> deletarAluno(@PathVariable("codigo") Long codigo) {
         try {
             alunoService.deletarAluno(codigo);

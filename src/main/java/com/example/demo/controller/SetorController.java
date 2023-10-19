@@ -50,7 +50,7 @@ public class SetorController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> deletarSetor(@PathVariable("id") Long id) {
         try {
             setorService.deletarSetor(id);

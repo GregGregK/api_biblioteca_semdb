@@ -4,6 +4,7 @@ public class Bibliotecario {
     private Long codigo; 
     private String nome;
     private Setor setor;
+    
     public Long getCodigo() {
         return codigo;
     }
