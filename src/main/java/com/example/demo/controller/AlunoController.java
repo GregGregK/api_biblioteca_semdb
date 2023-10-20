@@ -6,13 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Aluno;
+import com.example.demo.entity.Livro;
 import com.example.demo.service.AlunoService;
 
 @RestController
@@ -51,11 +54,10 @@ public class AlunoController {
         }
     }
     
-
     @GetMapping("/findById/{codigo}")
-    public ResponseEntity<?> buscarAluno(@PathVariable("codigo") Long codigo){
+    public ResponseEntity<?> buscarAlunoPorID(@PathVariable("codigo") Long codigo){
         try {
-            Aluno aluno = alunoService.buscarAluno(codigo);
+            Aluno aluno = alunoService.buscarAlunoPorID(codigo);
             return new ResponseEntity(aluno, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -72,9 +74,42 @@ public class AlunoController {
         }
     }
 
+    @PutMapping("/atualizar/{codigo}")
+    public ResponseEntity<?> atualizarAluno(
+            @PathVariable("codigo") Long codigo,
+            @RequestBody Aluno alunoAtualizado) {
+        try {
+            Aluno aluno = alunoService.atualizarAluno(codigo, alunoAtualizado);
+            return new ResponseEntity<>(aluno, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @PatchMapping("/{codigo}/adicionarLivros")
+    public ResponseEntity<?> adicionarLivrosAoAluno(
+            @RequestBody List<Livro> livros,
+            @PathVariable("codigo") Long codigo) {
+        try {
+            alunoService.adicionarLivrosAAluno(codigo, livros);
+            return new ResponseEntity<>("Livros adicionados ao aluno com sucesso", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
-
+    @DeleteMapping("/{codigoAluno}/removerLivro/{codigoLivro}")
+    public ResponseEntity<?> removerLivroDoAluno(
+            @PathVariable("codigoAluno") Long codigoAluno,
+            @PathVariable("codigoLivro") Long codigoLivro) {
+        try {
+            alunoService.removerLivrosDeAluno(codigoAluno, codigoLivro);
+            return new ResponseEntity<>("Livro removido do aluno com sucesso", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
 
 
 

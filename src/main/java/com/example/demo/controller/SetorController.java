@@ -60,7 +60,7 @@ public class SetorController {
         }
     }
 
-    @GetMapping("findById/{id}")
+    @GetMapping("/findbyid/{id}")
     public ResponseEntity<?> buscarSetorPorId(@PathVariable("id") Long id) {
         try {
             Setor setor = setorService.buscarSetor(id);

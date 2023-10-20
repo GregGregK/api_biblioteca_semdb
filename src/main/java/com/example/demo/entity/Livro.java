@@ -1,16 +1,23 @@
 package com.example.demo.entity;
 
 public class Livro {
-    private Long ISBN;
+    private Long codigo;
+    private int ISBN;
     private String nome;
     private String desc;
     private int qntd;
     private String autor;
     
-    public Long getISBN() {
+    public Long getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+    public int getISBN() {
         return ISBN;
     }
-    public void setISBN(Long iSBN) {
+    public void setISBN(int iSBN) {
         ISBN = iSBN;
     }
     public String getNome() {
@@ -37,4 +44,7 @@ public class Livro {
     public void setAutor(String autor) {
         this.autor = autor;
     }
+    
+
+    
 }

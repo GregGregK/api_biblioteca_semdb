@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Bibliotecario;
+import com.example.demo.entity.Setor;
 import com.example.demo.service.BibliotecarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,4 +63,44 @@ public class BibliotecarioController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PatchMapping("{codigo}/adicionarSetor")
+    public ResponseEntity<?> adicionarSetor(
+        @RequestBody Setor setor,
+        @PathVariable("codigo") Long codigo) {
+            try {
+                bibliotecarioService.adicionarSetor(codigo, setor);
+                return new ResponseEntity<>("Setor adicionado", HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+    }
+ 
+    @PutMapping("/atualizar/{codigo}")
+    public ResponseEntity<?> atualizarBibliotecario(
+        @PathVariable("codigo") Long codigo,
+        @RequestBody Bibliotecario bibliotecarioAtualizado) {
+            try {
+                Bibliotecario bibliotecario = bibliotecarioService.atualizarBibliotecario(codigo, bibliotecarioAtualizado);
+                return new ResponseEntity<>(bibliotecario, HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+
+    @DeleteMapping("/{codigo}/removerSetor/{codigoSetor}")
+    public ResponseEntity<?> removerSetor(
+            @PathVariable("codigo") Long codigo,
+            @PathVariable("codigoSetor") Long codigoSetor
+        ) {
+            try {
+                bibliotecarioService.removerSetor(codigo, codigoSetor);
+                return new ResponseEntity<>("Setor removido com sucesso", HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); 
+            }
+        }
 }
+    
+
+

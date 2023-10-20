@@ -43,10 +43,10 @@ public class LivroController {
         }
     }
 
-    @GetMapping("/findByISBN/{ISBN}")
-    public ResponseEntity<?> buscarLivro(@PathVariable("ISBN") Long ISBN) {
+    @GetMapping("/findbyid/{codigo}")
+    public ResponseEntity<?> buscarLivro(@PathVariable("codigo") Long codigo) {
         try {
-            Livro livro = livroService.buscarLivro(ISBN);
+            Livro livro = livroService.buscarLivro(codigo);
             return new ResponseEntity(livro, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -63,15 +63,31 @@ public class LivroController {
         }
     }
 
-    @PutMapping("/update/{ISBN}")
-    public ResponseEntity<?> atualizarQuantidadeLivro(@PathVariable("ISBN") Long ISBN, @RequestParam int novaQuantidade) {
+
+    @PatchMapping("/update/{codigo}")
+    public ResponseEntity<?> atualizarLivro(@PathVariable("codigo") Long codigo, @RequestBody Livro livroAtualizado) {
         try {
-            Livro livro = livroService.buscarLivro(ISBN);
-            livro.setQntd(novaQuantidade);
-            return new ResponseEntity<>(livroService.adicionarLivro(livro), HttpStatus.OK);
+            if (livroAtualizado == null) {
+                return new ResponseEntity<>("Livro não encontrado", HttpStatus.NOT_FOUND);
+            }
+
+            if (livroAtualizado.getQntd() <= 0) {
+                return new ResponseEntity<>("Campo de quantidade não pode ser zero ou negativo", HttpStatus.BAD_REQUEST);
+            }
+
+            if (!livroService.livrosPorCodigo.containsKey(codigo)) {
+                return new ResponseEntity<>("Livro não encontrado", HttpStatus.NOT_FOUND);
+            }
+
+            Livro livroExistente = livroService.livrosPorCodigo.get(codigo);
+            livroExistente.setQntd(livroAtualizado.getQntd());
+
+            return new ResponseEntity<>(livroExistente, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 }
+
+
+
